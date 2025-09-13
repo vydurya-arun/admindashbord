@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import gsap from "gsap";
+import Sidebar from "@/components/Sidebar";
+import DesktopSidebar from "./DesktopSidebar";
 
 const DashLayout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +53,7 @@ const DashLayout = ({ children }) => {
 
   return (
     <div>
-      <div className="w-screen h-screen grid grid-cols-10 grid-rows-10 relative z-0">
+      <div className="w-screen h-dvh grid grid-cols-10 grid-rows-10 relative z-0">
         <nav className="row-start-1 row-end-2 col-start-1 md:col-start-3 col-end-11 shadow-[0_2px_4px_rgba(0,0,0,0.1)] flex items-center px-4 bg-white">
           <button onClick={openSidebar}>
             <Menu className="md:hidden" />
@@ -59,9 +61,9 @@ const DashLayout = ({ children }) => {
         </nav>
 
         {/* Sidebar (Desktop) */}
-        <section className="hidden md:block row-start-1 row-end-11 col-start-1 col-end-3 p-4 ">
-          sidebar
-        </section>
+        <div className="hidden md:block row-start-1 row-end-11 col-start-1 col-end-3 px-5 py-6">
+          <DesktopSidebar/>
+        </div>
 
         {/* Main Content */}
         <main className="bg-[#F5F6FA] row-start-2 row-end-11 col-start-1 md:col-start-3 col-end-11 p-4">
@@ -74,22 +76,18 @@ const DashLayout = ({ children }) => {
         <>
           <div
             ref={sidebarRef}
-            className="bg-white w-[300px] h-screen absolute top-0 left-0 md:hidden flex justify-between items-start px-3 py-3 z-20 shadow-lg"
+            className="bg-white w-[300px] h-dvh absolute top-0 left-0 md:hidden flex flex-col justify-between items-center px-5 py-6 z-20 shadow-lg"
           >
-            <p>Logo</p>
-            <button
-              onClick={closeSidebar}
-              className="rounded-full bg-gray-200 p-2"
-            >
-              <X />
-            </button>
+
+          <Sidebar closeSidebar={closeSidebar} />
+
           </div>
 
           {/* Overlay */}
           <div
             ref={overlayRef}
             onClick={closeSidebar}
-            className="bg-black absolute w-screen h-screen top-0 left-0 md:hidden z-10"
+            className="bg-black absolute w-screen h-dvh top-0 left-0 md:hidden z-10"
           />
         </>
       )}
