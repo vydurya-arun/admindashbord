@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import DashLayot from "@/components/DashLayot";
+import DashLayot from "@/components/dashboardUI/DashLayot";
 
 
 const geistSans = Geist({

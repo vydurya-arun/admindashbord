@@ -53,7 +53,7 @@ const DesktopSidebar = () => {
           return (
             <Link href="/settings">
               <div
-          className={`group flex justify-start items-center gap-2 h-10 px-2 py-1 rounded-lg 
+          className={`group flex justify-start items-center gap-2 h-10 px-2 py-1 rounded-lg
           ${
             isActive
               ? "bg-blue-500 text-white"

@@ -3,8 +3,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Menu } from "lucide-react";
 import gsap from "gsap";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/dashboardUI/Sidebar";
 import DesktopSidebar from "./DesktopSidebar";
+import Image from "next/image";
 
 const DashLayout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,10 +55,19 @@ const DashLayout = ({ children }) => {
   return (
     <div>
       <div className="w-screen h-dvh grid grid-cols-10 grid-rows-10 relative z-0">
-        <nav className="row-start-1 row-end-2 col-start-1 md:col-start-3 col-end-11 shadow-[0_2px_4px_rgba(0,0,0,0.1)] flex items-center px-4 bg-white">
+        <nav className="row-start-1 row-end-2 col-start-1 md:col-start-3 col-end-11 shadow-[0_2px_4px_rgba(0,0,0,0.1)] flex items-center justify-between px-4 bg-white">
           <button onClick={openSidebar}>
             <Menu className="md:hidden" />
           </button>
+          <div className="flex items-center gap-3">
+            <Image src="/images/avatar.png" width="38" height="38" alt="avatar"/>
+            <div>
+              <p>Arunkumar</p>
+              <p className="bg-blue-500 px-1 py-0.5 rounded-full flex items-center justify-center">admin</p>
+            </div>
+
+          </div>
+
         </nav>
 
         {/* Sidebar (Desktop) */}

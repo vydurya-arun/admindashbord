@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+@import "tailwindcss";
+
+
+.manrope {
+  font-family: "Manrope", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.gradient-text {
+  background: -webkit-linear-gradient(45deg, #FF3BCE 0%, #3BA7EB 100%);
+  background: linear-gradient(45deg, #FF3BCE 0%, #3BA7EB 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.gradient-text-2 {
+  background: -webkit-linear-gradient(45deg, #BB6FFB 0%, #FC5F67 52%, #FFB054 100%);
+  background: linear-gradient(45deg, #BB6FFB 0%, #FC5F67 52%, #FFB054 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+
+.border-color {
+  border: 3px solid transparent; /* border width */
+  border-image: linear-gradient(
+    to right,
+    #BB6FFB 0%,
+    #FC5F67 52%,
+    #FFB054 100%
+  ) 1; /* the "1" preserves the gradient across the border */
+  border-radius: 8px;
+}
