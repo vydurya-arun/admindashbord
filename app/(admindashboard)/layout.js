@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
+import { Menu } from "lucide-react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,11 +23,15 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className=" w-screen h-screen grid grid-cols-10 grid-rows-10">
-          <nav className=" row-start-1 row-end-2 col-start-3 col-end-11 drop-shadow-lg">navbar</nav>
-          <section className=" row-start-1 row-end-11 col-start-1 col-end-3">sidebar</section>
-          <main className="bg-[#F5F6FA] row-start-2 row-end-11 col-start-3 col-end-11">main</main>
+        <div className=" w-screen h-screen grid grid-cols-10 grid-rows-10 relative">
+          <nav className=" row-start-1 row-end-2 col-start-1 md:col-start-3 col-end-11 drop-shadow-lg flex items-center"><Menu className=" md:hidden"/></nav>
+          <section className="hidden md:block row-start-1 row-end-11 col-start-1 col-end-3">sidebar</section>
+          <main className="bg-[#F5F6FA] row-start-2 row-end-11 col-start-1 md:col-start-3 col-end-11">main</main>
         </div>
+        <div className="bg-red-300 w-[300px] h-screen absolute top-0 md:hidden">
+          mobile sidebar
+        </div>
+
       </body>
     </html>
   );
