@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
 .sign-bg{
-    background-image: url('');
+    background-image: url('/images/image-bg.png');
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center;
 }
