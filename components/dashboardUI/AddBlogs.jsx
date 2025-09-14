@@ -7,12 +7,11 @@ import { postBlogs } from "@/api_controller/blogsController";
 const AddBlogs = ({ isOpen, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
     title: "",
-    place: "",
-    address: "",
-    phone: "",
-    mapIframe: "",
-    status: true,
-    image: null,
+    description: "",
+    tag: "",
+    date: "",
+    isActive: true,
+    file: null,
   });
 
   const [errors, setErrors] = useState({});
@@ -20,36 +19,25 @@ const AddBlogs = ({ isOpen, onClose, onSuccess }) => {
   const [loading, setLoading] = useState(false);
 
   // handle input change
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (files) {
-      setFormData({ ...formData, [name]: files[0] });
-      setPreview(URL.createObjectURL(files[0]));
-    } else {
-      // reset district if state changes
-      if (name === "state") {
-        setFormData({ ...formData, state: value, district: "" });
-      } else {
-        setFormData({ ...formData, [name]: value });
-      }
-    }
-  };
+const handleChange = (e) => {
+  const { name, value, files } = e.target;
+  if (files) {
+    setFormData({ ...formData, file: files[0] });
+    setPreview(URL.createObjectURL(files[0]));
+  } else {
+    setFormData({ ...formData, [name]: value });
+  }
+};
 
 
   // validation
   const validate = () => {
     let newErrors = {};
     if (!formData.title.trim()) newErrors.title = "Title is required";
-    if (!formData.place.trim()) newErrors.place = "Place is required";
-    if (!formData.address.trim()) newErrors.address = "Address is required";
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone is required";
-    } else if (!/^[0-9]{10}$/.test(formData.phone)) {
-      newErrors.phone = "Phone must be 10 digits";
-    }
-    if (!formData.mapIframe.trim())
-      newErrors.mapIframe = "iFrame link required";
-    if (!formData.image) newErrors.image = "Image upload required";
+    if (!formData.description.trim()) newErrors.description = "description is required";
+    if (!formData.tag.trim()) newErrors.tag = "tag is required";
+    if (!formData.date) newErrors.date = "date is required";
+    if (!formData.file) newErrors.file = "Image upload required";
 
     return newErrors;
   };
@@ -70,25 +58,24 @@ const AddBlogs = ({ isOpen, onClose, onSuccess }) => {
         payload.append(key, formData[key]);
       });
 
-      const data = await postLocation(payload);
+      const data = await postBlogs(payload);
       if (onSuccess) onSuccess(data);
 
       // reset
       setFormData({
         title: "",
-        place: "",
-        address: "",
-        phone: "",
-        mapIframe: "",
-        status: true,
-        image: null,
+        description: "",
+        tag: "",
+        date: "",
+        isActive: true,
+        file: null,
       });
       setPreview(null);
       setErrors({});
       onClose();
       window.location.reload();
     } catch (error) {
-      console.error("Error adding location:", error.message);
+      console.error("Error adding blogs:", error.message);
       alert("Failed to add location. Please try again.");
     } finally {
       setLoading(false);
@@ -102,7 +89,7 @@ const AddBlogs = ({ isOpen, onClose, onSuccess }) => {
       <div className="bg-white w-[95%] md:w-[650px] rounded-xl shadow-lg p-6">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold">Add New Franchise Location</h2>
+          <h2 className="text-lg font-semibold">Add New Blog</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-black text-xl"
@@ -119,7 +106,7 @@ const AddBlogs = ({ isOpen, onClose, onSuccess }) => {
               <input
                 type="text"
                 name="title"
-                placeholder="e.g., Madirasi Biriyani Restaurant"
+                placeholder="e.g., Ai technology"
                 value={formData.title}
                 onChange={handleChange}
                 className="w-full p-2 border rounded-md"
@@ -131,51 +118,51 @@ const AddBlogs = ({ isOpen, onClose, onSuccess }) => {
 
 
 
-            {/* Place */}
+            {/* Description */}
             <div>
-              <label className="block mb-1">Place</label>
+              <label className="block mb-1">Description</label>
               <input
                 type="text"
-                name="place"
-                placeholder="e.g., Kochi"
-                value={formData.place}
+                name="description"
+                placeholder="e.g., ai is future"
+                value={formData.description}
                 onChange={handleChange}
                 className="w-full p-2 border rounded-md"
               />
-              {errors.place && (
-                <p className="text-red-500 text-sm">{errors.place}</p>
+              {errors.description && (
+                <p className="text-red-500 text-sm">{errors.description}</p>
               )}
             </div>
 
-            {/* Address */}
+            {/* tags */}
             <div>
-              <label className="block mb-1">Address</label>
+              <label className="block mb-1">Tags</label>
               <input
                 type="text"
-                name="address"
-                placeholder="e.g., Near Railway Station"
-                value={formData.address}
+                name="tag"
+                placeholder="e.g., News"
+                value={formData.tag}
                 onChange={handleChange}
                 className="w-full p-2 border rounded-md"
               />
-              {errors.address && (
-                <p className="text-red-500 text-sm">{errors.address}</p>
+              {errors.tag && (
+                <p className="text-red-500 text-sm">{errors.tag}</p>
               )}
             </div>
 
-            {/* Phone */}
+            {/* Date */}
             <div>
-              <label className="block mb-1">Phone</label>
+              <label className="block mb-1">Date</label>
               <input
-                type="text"
-                name="phone"
-                placeholder="e.g., 9876543210"
-                value={formData.phone}
+                type="date"
+                name="date"
+                placeholder="e.g., Date-month-year"
+                value={formData.date}
                 onChange={handleChange}
                 className="w-full p-2 border rounded-md"
               />
-              {errors.phone && (
-                <p className="text-red-500 text-sm">{errors.phone}</p>
+              {errors.date && (
+                <p className="text-red-500 text-sm">{errors.date}</p>
               )}
             </div>
 
@@ -183,12 +170,12 @@ const AddBlogs = ({ isOpen, onClose, onSuccess }) => {
             <div>
               <label className="block mb-1">Status</label>
               <select
-                name="status"
-                value={formData.status ? "Active" : "Inactive"}
+                name="isActive"
+                value={formData.isActive ? "Active" : "Inactive"}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    status: e.target.value === "Active" ? true : false,
+                    isActive: e.target.value === "Active" ? true : false,
                   })
                 }
                 className="w-full p-2 border rounded-md"
@@ -198,21 +185,6 @@ const AddBlogs = ({ isOpen, onClose, onSuccess }) => {
               </select>
             </div>
 
-            {/* iFrame */}
-            <div>
-              <label className="block mb-1">iFrame Link</label>
-              <input
-                type="text"
-                name="mapIframe"
-                placeholder="Embed map iframe link"
-                value={formData.mapIframe}
-                onChange={handleChange}
-                className="w-full p-2 border rounded-md"
-              />
-              {errors.mapIframe && (
-                <p className="text-red-500 text-sm">{errors.mapIframe}</p>
-              )}
-            </div>
 
             {/* Image Upload */}
             <div>
@@ -245,14 +217,14 @@ const AddBlogs = ({ isOpen, onClose, onSuccess }) => {
                 )}
                 <input
                   type="file"
-                  name="image"
+                  name="file"
                   accept="image/*"
                   onChange={handleChange}
                   className="hidden"
                 />
               </label>
-              {errors.image && (
-                <p className="text-red-500 text-sm">{errors.image}</p>
+              {errors.file && (
+                <p className="text-red-500 text-sm">{errors.file}</p>
               )}
             </div>
 
@@ -268,9 +240,9 @@ const AddBlogs = ({ isOpen, onClose, onSuccess }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-4 py-2 bg-[#1d0309] text-white rounded-md disabled:opacity-60"
+                className="px-4 py-2 bg-blue-500 text-white rounded-md disabled:opacity-60"
               >
-                {loading ? "Adding..." : "Add Location"}
+                {loading ? "Adding..." : "Add Blogs"}
               </button>
             </div>
           </div>

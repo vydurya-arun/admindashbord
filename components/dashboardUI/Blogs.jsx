@@ -18,9 +18,9 @@ const Blogs = ({ onEditClick }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const locations = await getAllLocation();
-        console.log(locations)
-        setData(locations);  // assuming API returns array of objects
+        const blogs = await getAllBlogs();
+        console.log(blogs)
+        setData(blogs);  // assuming API returns array of objects
       } catch (err) {
         setError(err.message || "Failed to load contacts");
       } finally {
@@ -43,12 +43,12 @@ const handleDelete = async (id) => {
 
   if (result.isConfirmed) {
     try {
-      await deleteLocation(id); // Call your API
+      await deleteBlogs(id); // Call your API
       Swal.fire("Deleted!", "Location has been deleted.", "success");
 
       // Refetch and update the table
-      const locations = await getAllLocation();
-      setData(locations);  // ✅ update state so table re-renders
+      const blogs = await getAllBlogs();
+      setData(blogs);  // ✅ update state so table re-renders
     } catch (error) {
       console.error("Delete failed:", error);
       Swal.fire("Error", "Failed to delete location", "error");
@@ -76,31 +76,21 @@ const handleDelete = async (id) => {
         size: 100,
       },
       {
-        accessorKey: "phone",
-        header: "Phone",
+        accessorKey: "tag",
+        header: "Tags",
         size: 100,
       },
       {
-        accessorKey: "state",
-        header: "State",
+        accessorKey: "description",
+        header: "Description",
         size: 100,
       },
       {
-        accessorKey: "district",
-        header: "District",
-        size: 100,
-      },
-      {
-        accessorKey: "place",
-        header: "Place",
-        size: 100,
-      },
-      {
-        accessorKey: "status",
+        accessorKey: "isActive",
         header: "Status",
         size: 100,
         Cell: ({ row }) => (
-          row.original.status ? "Active" : "Inactive"
+          row.original.isActive ? "Active" : "Inactive"
         ),
       },
 

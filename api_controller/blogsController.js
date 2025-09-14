@@ -61,8 +61,8 @@ export async function deleteBlogs(locationId) {
   }
 }
 
-export async function getBlogsById(locationId) {
-  const res = await fetch(`${'http://localhost:4010/api/blog/'}${locationId}`, {
+export async function getBlogsById(blogId) {
+  const res = await fetch(`${'http://localhost:4010/api/blog/'}${blogId}`, {
     method: "GET",
     credentials: "include", // send cookies for authentication
   });
@@ -81,8 +81,8 @@ export async function getBlogsById(locationId) {
   return data; // 👈 only return the array
 }
 
-export async function updateBlogs(id, payload) {
-  const res = await fetch(`${'http://localhost:4010/api/blog/'}${id}`, {
+export async function updateBlogs(blogId, payload) {
+  const res = await fetch(`${'http://localhost:4010/api/blog/'}${blogId}`, {
     method: "PUT",          
     credentials: "include", // include cookies if any
     body: payload,          // FormData for file upload

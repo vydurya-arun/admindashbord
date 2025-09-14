@@ -25,10 +25,10 @@ const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     <div className="p-3 flex flex-col gap-5">
       {/* Header + Add Button */}
       <div className="flex justify-between w-full">
-        <h1 className="text-3xl font-bold">Franchise Details</h1>
+        <h1 className="text-3xl font-bold">Create Blogs</h1>
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="bg-[#1d0309] text-white font-semibold text-lg px-4 py-1 rounded-md flex gap-2 items-center cursor-pointer"
+          className="bg-blue-500 text-white font-semibold text-lg px-4 py-1 rounded-md flex gap-2 items-center cursor-pointer"
         >
           <svg
             width="24"
@@ -54,7 +54,7 @@ const [isAddModalOpen, setIsAddModalOpen] = useState(false);
       <EditBlogs
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
-        locationId={selectedId} // pass the ID to EditModal
+        blogId={selectedId} // pass the ID to EditModal
       />
 
       {/* Franchise list */}
