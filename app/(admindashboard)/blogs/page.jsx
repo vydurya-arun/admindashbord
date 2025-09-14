@@ -1,8 +1,12 @@
+import BlogsPage from '@/components/dashboardUI/BlogsPage'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>Blog page</div>
+    <>
+      <BlogsPage/>
+
+    </>
   )
 }
 

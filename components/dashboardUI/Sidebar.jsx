@@ -1,7 +1,7 @@
 "use client";
 
 import { sidebarConstants } from "@/constants/sidebarConstants";
-import { Settings, X } from "lucide-react";
+import { LogOut, Settings, X } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
@@ -54,7 +54,7 @@ const Sidebar = ({ closeSidebar }) => {
       </div>
 
       {/* Settings Link */}
-      <div className="w-full ">
+      {/* <div className="w-full ">
         {(() => {
           const isActive = pathname === "/settings";
           return (
@@ -77,6 +77,14 @@ const Sidebar = ({ closeSidebar }) => {
             </Link>
           );
         })()}
+      </div> */}
+
+      <div className="w-full">
+        <button className="group flex justify-start items-center gap-2 h-10 px-2 py-1 rounded-lg hover:bg-blue-500 hover:text-white w-full">
+         <LogOut className="w-7 h-7 text-red-500 group-hover:text-white"/>
+         <p className="group-hover:text-white">Logout</p>
+        </button>
+
       </div>
     </>
   );
