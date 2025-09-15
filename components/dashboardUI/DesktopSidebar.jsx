@@ -5,9 +5,21 @@ import { LogOut, Settings, X } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/context/AuthProvider";
 
 const DesktopSidebar = () => {
   const pathname = usePathname();
+      const { logout } = useAuth();
+  
+      const handleLogout = async () => {
+      try {
+        await logout(); // calls backend logout & clears cookies
+        window.location.href = "/login"; // redirect to login
+      } catch (err) {
+        console.error("Logout failed:", err);
+      }
+    };
+  
   return (
     <div className="flex flex-col justify-between items-center h-full">
       <div className="flex flex-col items-center w-full gap-5">
@@ -72,13 +84,15 @@ const DesktopSidebar = () => {
         })()}
       </div> */}
 
-      <div className="w-full">
-        <button className="group flex justify-start items-center gap-2 h-10 px-2 py-1 rounded-lg hover:bg-blue-500 hover:text-white w-full">
-         <LogOut className="w-7 h-7 text-red-500 group-hover:text-white"/>
-         <p className="group-hover:text-white">Logout</p>
-        </button>
-
-      </div>
+    <div className="w-full">
+      <button
+        onClick={handleLogout}
+        className="group flex justify-start items-center gap-2 h-10 px-2 py-1 rounded-lg hover:bg-blue-500 hover:text-white w-full"
+      >
+        <LogOut className="w-7 h-7 text-red-500 group-hover:text-white" />
+        <p className="group-hover:text-white">Logout</p>
+      </button>
+    </div>
 
 
     </div>

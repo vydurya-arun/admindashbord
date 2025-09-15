@@ -1,4 +1,4 @@
-
+import { axiosPrivate } from "@/libs/axios";
 
 
 export async function postBlogs(payload) {
@@ -21,25 +21,23 @@ export async function postBlogs(payload) {
   return data; // 👈 return saved location object
 }
 
-// ✅ Get locationDetails (Protected)
-export async function getAllBlogs() {
-  const res = await fetch('http://localhost:4010/api/blog/', {
-    method: "GET",
-    credentials: "include",
-  });
 
-  if (!res.ok) {
+// ✅ Get all blogs (Protected)
+export async function getAllBlogs() {
+  try {
+    const res = await axiosPrivate.get("/blog");
+
+    const { success, data } = res.data;
+
+    if (!success) {
+      throw new Error("Failed to fetch blogs");
+    }
+
+    return data; // 👈 only return the array
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
     throw new Error("Not authorized");
   }
-
-  // wait for json
-  const { success, data } = await res.json();
-
-  if (!success) {
-    throw new Error("Failed to fetch contacts");
-  }
-
-  return data; // 👈 only return the array
 }
 
 
