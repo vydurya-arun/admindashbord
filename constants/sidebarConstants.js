@@ -1,11 +1,12 @@
-import { LayoutGrid,SquarePlay } from 'lucide-react';
+import {SquarePlay,ShieldUser } from 'lucide-react';
 
 export const sidebarConstants = [
+    
     {
         id:1,
-        title:"Dashboard",
-        link:"/home",
-        icon:LayoutGrid
+        title:"Admin users",
+        link:"/user",
+        icon:ShieldUser
     },
     {
         id:2,

@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import DashLayot from "@/components/dashboardUI/DashLayot";
+import { AuthProvider } from "@/context/AuthProvider";
 
 
 const geistSans = Geist({
@@ -24,7 +25,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <DashLayot children={children}/>
+        <AuthProvider>
+          <DashLayot>{children}</DashLayot>
+        </AuthProvider>
+
 
       </body>
     </html>
