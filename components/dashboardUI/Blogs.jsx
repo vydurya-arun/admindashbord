@@ -80,11 +80,6 @@ const handleDelete = async (id) => {
         size: 100,
       },
       {
-        accessorKey: "description",
-        header: "Description",
-        size: 100,
-      },
-      {
         accessorKey: "isActive",
         header: "Status",
         size: 100,

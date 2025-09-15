@@ -7,7 +7,7 @@ export function middleware(request) {
 
   // ✅ If user already logged in, prevent them from visiting /login
   if (pathname.startsWith("/login") && (accessToken || refreshToken)) {
-    return NextResponse.redirect(new URL("/home", request.url));
+    return NextResponse.redirect(new URL("/user", request.url));
   }
 
   // ✅ Protect private routes
