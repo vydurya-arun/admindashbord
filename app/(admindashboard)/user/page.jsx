@@ -1,8 +1,11 @@
+import UserPage from '@/components/dashboardUI/UserPage'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>page</div>
+    <>
+      <UserPage/>
+    </>
   )
 }
 
