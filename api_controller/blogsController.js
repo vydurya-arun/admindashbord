@@ -35,6 +35,23 @@ export async function getAllBlogs() {
   }
 }
 
+export async function getAllBlogsInpublic() {
+  try {
+    const res = await axiosPrivate.get("/blog/public");
+
+    const { success, data } = res.data;
+
+    if (!success) {
+      throw new Error("Failed to fetch blogs");
+    }
+
+    return data; // 👈 only return the array
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
+    throw new Error("Not authorized");
+  }
+}
+
 export async function deleteBlogs(blogId) {
   try {
     const res = await axiosPrivate.delete(`/blog/${blogId}`);

@@ -1,4 +1,4 @@
-import {SquarePlay,ShieldUser } from 'lucide-react';
+import {SquarePlay,ShieldUser,FileCode } from 'lucide-react';
 
 export const sidebarConstants = [
     
@@ -13,5 +13,11 @@ export const sidebarConstants = [
         title:"Blogs",
         link:"/blogs",
         icon:SquarePlay
+    },
+    {
+        id:3,
+        title:"Resumes",
+        link:"/resume",
+        icon:FileCode
     }
 ]
