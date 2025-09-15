@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
     const verifyLogin = async () => {
       try {
         const res = await axiosPrivate.get("/auth/profile"); // backend endpoint to get user info
-        setAuth(res.data);
+        setAuth(res.data?.user);
       } catch {
         setAuth(null);
       }

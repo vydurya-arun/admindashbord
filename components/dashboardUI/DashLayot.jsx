@@ -6,12 +6,15 @@ import gsap from "gsap";
 import Sidebar from "@/components/dashboardUI/Sidebar";
 import DesktopSidebar from "./DesktopSidebar";
 import Image from "next/image";
+import { useAuth } from "@/context/AuthProvider";
 
 const DashLayout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [renderSidebar, setRenderSidebar] = useState(false);
   const sidebarRef = useRef(null);
   const overlayRef = useRef(null);
+  const { auth } = useAuth();
+
 
   const openSidebar = () => {
     setRenderSidebar(true);
@@ -62,8 +65,8 @@ const DashLayout = ({ children }) => {
           <div className="flex items-center gap-3">
             <Image src="/images/avatar.png" width="38" height="38" alt="avatar"/>
             <div>
-              <p>Arunkumar</p>
-              <p className="bg-blue-500 px-1 py-0.5 rounded-full flex items-center justify-center">admin</p>
+              <p>{auth?.username}</p>
+              <p className="bg-blue-500 px-1 py-0.5 rounded-full flex items-center justify-center">{auth?.role}</p>
             </div>
 
           </div>

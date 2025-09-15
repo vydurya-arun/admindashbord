@@ -19,7 +19,6 @@ const Blogs = ({ onEditClick }) => {
     const fetchData = async () => {
       try {
         const blogs = await getAllBlogs();
-        console.log(blogs)
         setData(blogs);  // assuming API returns array of objects
       } catch (err) {
         setError(err.message || "Failed to load contacts");

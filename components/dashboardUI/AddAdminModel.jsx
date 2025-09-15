@@ -64,7 +64,7 @@ const AddAdminModel = ({ isOpen, onClose, onSuccess }) => {
         email: formData.email,
         password: formData.password,
       };
-      console.log(payload,'last test')
+   
 
       const data = await userRegisterAfterLogin(payload); 
 
