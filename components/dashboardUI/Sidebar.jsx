@@ -64,31 +64,7 @@ const Sidebar = ({ closeSidebar }) => {
         </ul>
       </div>
 
-      {/* Settings Link */}
-      {/* <div className="w-full ">
-        {(() => {
-          const isActive = pathname === "/settings";
-          return (
-            <Link href="/settings" onClick={closeSidebar}>
-              <div
-                className={`flex justify-start items-center gap-2 h-10 px-2 py-1 rounded-lg 
-                ${
-                  isActive
-                    ? "bg-blue-500 text-white"
-                    : "hover:bg-blue-500 hover:text-white"
-                }`}
-              >
-                <Settings
-                  className={`w-7 h-7 ${
-                    isActive ? "text-white" : "text-blue-500"
-                  }`}
-                />
-                <p>Settings</p>
-              </div>
-            </Link>
-          );
-        })()}
-      </div> */}
+
 
     <div className="w-full">
       <button

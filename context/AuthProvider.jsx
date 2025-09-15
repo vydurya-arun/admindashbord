@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
         if (error.response?.status === 401 && !originalRequest._retry) {
           originalRequest._retry = true;
           try {
-            await axiosPublic.get("/auth/refresh"); // backend should set new accessToken cookie
+            await axiosPublic.post("/auth/refresh"); // backend should set new accessToken cookie
             return axiosPrivate(originalRequest);
           } catch (err) {
             setAuth(null); // logout
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
   // ✅ Login
   const login = async (credentials) => {
     const res = await axiosPublic.post("/auth/login", credentials);
-    setAuth(res.data.user); // set user info
+    setAuth(res.data.username); // set user info
   };
 
   // ✅ Logout

@@ -11,7 +11,7 @@ export function middleware(request) {
   }
 
   // ✅ Protect private routes
-  if (pathname.startsWith("/home") || pathname.startsWith("/blogs")) {
+  if (pathname.startsWith("/user") || pathname.startsWith("/blogs")) {
     if (!accessToken && !refreshToken) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
@@ -22,7 +22,7 @@ export function middleware(request) {
 
 export const config = {
   matcher: [
-    "/home/:path*",
+    "/user/:path*",
     "/blogs/:path*",
     "/login", // so we can redirect logged-in users away from login
   ],

@@ -20,7 +20,7 @@ const SignIn = () => {
     try {
       await login(form); // ✅ Calls login() from AuthProvider
       // Optionally redirect to dashboard
-      window.location.href = "/home";
+      window.location.href = "/user";
     } catch (err) {
       setError("Invalid email or password");
     }
