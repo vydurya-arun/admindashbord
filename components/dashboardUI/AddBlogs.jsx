@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { postBlogs } from "@/api_controller/blogsController";
+import "react-quill-new/dist/quill.snow.css";
 
+const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
 const AddBlogs = ({ isOpen, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -18,31 +21,30 @@ const AddBlogs = ({ isOpen, onClose, onSuccess }) => {
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // handle input change
-const handleChange = (e) => {
-  const { name, value, files } = e.target;
-  if (files) {
-    setFormData({ ...formData, file: files[0] });
-    setPreview(URL.createObjectURL(files[0]));
-  } else {
-    setFormData({ ...formData, [name]: value });
-  }
-};
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (files) {
+      setFormData({ ...formData, file: files[0] });
+      setPreview(URL.createObjectURL(files[0]));
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
 
+  const handleDescriptionChange = (value) => {
+    setFormData({ ...formData, description: value });
+  };
 
-  // validation
   const validate = () => {
     let newErrors = {};
     if (!formData.title.trim()) newErrors.title = "Title is required";
-    if (!formData.description.trim()) newErrors.description = "description is required";
-    if (!formData.tag.trim()) newErrors.tag = "tag is required";
-    if (!formData.date) newErrors.date = "date is required";
+    if (!formData.description.trim()) newErrors.description = "Description is required";
+    if (!formData.tag.trim()) newErrors.tag = "Tag is required";
+    if (!formData.date) newErrors.date = "Date is required";
     if (!formData.file) newErrors.file = "Image upload required";
-
     return newErrors;
   };
 
-  // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
@@ -54,14 +56,16 @@ const handleChange = (e) => {
     try {
       setLoading(true);
       const payload = new FormData();
-      Object.keys(formData).forEach((key) => {
-        payload.append(key, formData[key]);
-      });
+      payload.append("title", formData.title);
+      payload.append("description", formData.description);
+      payload.append("tag", formData.tag);
+      payload.append("date", formData.date);
+      payload.append("isActive", formData.isActive);
+      if (formData.file) payload.append("file", formData.file);
 
       const data = await postBlogs(payload);
       if (onSuccess) onSuccess(data);
 
-      // reset
       setFormData({
         title: "",
         description: "",
@@ -76,7 +80,7 @@ const handleChange = (e) => {
       window.location.reload();
     } catch (error) {
       console.error("Error adding blogs:", error.message);
-      alert("Failed to add location. Please try again.");
+      alert("Failed to add blog. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -86,55 +90,45 @@ const handleChange = (e) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/70 z-50">
-      <div className="bg-white w-[95%] md:w-[650px] rounded-xl shadow-lg p-6">
+      <div className="bg-white w-[95%] md:w-[90%] h-[90%] rounded-xl shadow-lg p-6 overflow-y-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Add New Blog</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-black text-xl"
-          >
-            &times;
-          </button>
+          <button onClick={onClose} className="text-gray-500 hover:text-black text-xl">&times;</button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <div className="grid grid-cols-2 gap-3">
+        {/* Two-column layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* LEFT SIDE: Blog Editor */}
+          <form onSubmit={handleSubmit} className="space-y-3">
             {/* Title */}
             <div>
               <label className="block mb-1">Title</label>
               <input
                 type="text"
                 name="title"
-                placeholder="e.g., Ai technology"
+                placeholder="e.g., AI Technology"
                 value={formData.title}
                 onChange={handleChange}
                 className="w-full p-2 border rounded-md"
               />
-              {errors.title && (
-                <p className="text-red-500 text-sm">{errors.title}</p>
-              )}
+              {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
             </div>
 
-
-
-            {/* Description */}
-            <div>
+            {/* Description with ReactQuill (larger) */}
+            <div className="h-[250px]">
               <label className="block mb-1">Description</label>
-              <input
-                type="text"
-                name="description"
-                placeholder="e.g., ai is future"
+              <ReactQuill
+                theme="snow"
                 value={formData.description}
-                onChange={handleChange}
-                className="w-full p-2 border rounded-md"
+                onChange={handleDescriptionChange}
+                placeholder="Write your blog content..."
+                className="h-[190px] mb-2"
               />
-              {errors.description && (
-                <p className="text-red-500 text-sm">{errors.description}</p>
-              )}
+              {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
             </div>
 
-            {/* tags */}
+            {/* Tags */}
             <div>
               <label className="block mb-1">Tags</label>
               <input
@@ -145,9 +139,7 @@ const handleChange = (e) => {
                 onChange={handleChange}
                 className="w-full p-2 border rounded-md"
               />
-              {errors.tag && (
-                <p className="text-red-500 text-sm">{errors.tag}</p>
-              )}
+              {errors.tag && <p className="text-red-500 text-sm">{errors.tag}</p>}
             </div>
 
             {/* Date */}
@@ -156,14 +148,11 @@ const handleChange = (e) => {
               <input
                 type="date"
                 name="date"
-                placeholder="e.g., Date-month-year"
                 value={formData.date}
                 onChange={handleChange}
                 className="w-full p-2 border rounded-md"
               />
-              {errors.date && (
-                <p className="text-red-500 text-sm">{errors.date}</p>
-              )}
+              {errors.date && <p className="text-red-500 text-sm">{errors.date}</p>}
             </div>
 
             {/* Status */}
@@ -172,12 +161,7 @@ const handleChange = (e) => {
               <select
                 name="isActive"
                 value={formData.isActive ? "Active" : "Inactive"}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    isActive: e.target.value === "Active" ? true : false,
-                  })
-                }
+                onChange={(e) => setFormData({ ...formData, isActive: e.target.value === "Active" })}
                 className="w-full p-2 border rounded-md"
               >
                 <option value="Active">Active</option>
@@ -185,56 +169,22 @@ const handleChange = (e) => {
               </select>
             </div>
 
-
-            {/* Image Upload */}
+            {/* Upload Image (no preview inside input, smaller) */}
             <div>
               <label className="block mb-1 font-medium">Upload Image</label>
-              <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
-                {preview ? (
-                  <img
-                    src={preview}
-                    alt="Preview"
-                    className="h-full w-full object-cover rounded-xl"
-                  />
-                ) : (
-                  <div className="flex flex-col items-center gap-2 text-gray-500">
-                    <svg
-                      width="40"
-                      height="40"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="text-gray-400"
-                    >
-                      <path
-                        d="M14 2H6C4.9 2 4.01 2.9 4.01 4L4 20C4 21.1 4.89 22 5.99 22H18C19.1 22 20 21.1 20 20V8L14 2ZM18 20H6V4H13V9H18V20ZM8 15.01L9.41 16.42L11 14.84V19H13V14.84L14.59 16.43L16 15.01L12.01 11L8 15.01Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                    <p className="text-sm">Click to upload or drag & drop</p>
-                    <p className="text-xs text-gray-400">PNG, JPG (max 5MB)</p>
-                  </div>
-                )}
-                <input
-                  type="file"
-                  name="file"
-                  accept="image/*"
-                  onChange={handleChange}
-                  className="hidden"
-                />
-              </label>
-              {errors.file && (
-                <p className="text-red-500 text-sm">{errors.file}</p>
-              )}
+              <input
+                type="file"
+                name="file"
+                accept="image/*"
+                onChange={handleChange}
+                className="w-full border rounded-md p-2"
+              />
+              {errors.file && <p className="text-red-500 text-sm">{errors.file}</p>}
             </div>
 
             {/* Buttons */}
             <div className="flex justify-center items-center gap-2 pt-2">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 border rounded-md"
-              >
+              <button type="button" onClick={onClose} className="px-4 py-2 border rounded-md">
                 Cancel
               </button>
               <button
@@ -242,11 +192,34 @@ const handleChange = (e) => {
                 disabled={loading}
                 className="px-4 py-2 bg-blue-500 text-white rounded-md disabled:opacity-60"
               >
-                {loading ? "Adding..." : "Add Blogs"}
+                {loading ? "Adding..." : "Add Blog"}
               </button>
             </div>
+          </form>
+
+          {/* RIGHT SIDE: Live Preview */}
+          <div className="border rounded-md p-4 bg-gray-50">
+            <h3 className="text-lg font-semibold mb-2">Live Preview</h3>
+            <p className="text-sm text-gray-500">Blog Title</p>
+            <h2 className="text-xl font-bold">{formData.title || "Your Blog Title"}</h2>
+
+            <p className="mt-2 text-sm text-gray-500">Blog Description</p>
+            <div
+              className="prose max-w-none"
+              dangerouslySetInnerHTML={{ __html: formData.description }}
+            />
+
+            {preview && (
+              <div className="mt-3">
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className="w-full h-48 object-cover rounded-md"
+                />
+              </div>
+            )}
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
