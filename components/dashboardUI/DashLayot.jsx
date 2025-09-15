@@ -14,7 +14,7 @@ const DashLayout = ({ children }) => {
   const sidebarRef = useRef(null);
   const overlayRef = useRef(null);
   const { auth } = useAuth();
-  console.log(auth)
+
 
   const openSidebar = () => {
     setRenderSidebar(true);
@@ -65,8 +65,8 @@ const DashLayout = ({ children }) => {
           <div className="flex items-center gap-3">
             <Image src="/images/avatar.png" width="38" height="38" alt="avatar"/>
             <div>
-              <p>{auth?.user?.username}</p>
-              <p className="bg-blue-500 px-1 py-0.5 rounded-full flex items-center justify-center">{auth?.user?.role}</p>
+              <p>{auth?.username}</p>
+              <p className="bg-blue-500 px-1 py-0.5 rounded-full flex items-center justify-center">{auth?.role}</p>
             </div>
 
           </div>
