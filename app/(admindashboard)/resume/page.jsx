@@ -1,8 +1,12 @@
+import ResumePage from '@/components/dashboardUI/ResumePage'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>page</div>
+    <>
+      <ResumePage/>
+
+    </>
   )
 }
 
